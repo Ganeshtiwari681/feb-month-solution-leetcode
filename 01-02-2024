@@ -1,0 +1,23 @@
+int cmp(const void* a, const void* b){
+    return (*(int*)a) - (*(int*)b); // increase
+}
+
+int** divideArray(int* nums, int numsSize, int k, int* returnSize, int** returnColumnSizes) {
+    int div = numsSize/3;
+    *returnSize = div;
+    *returnColumnSizes = malloc(div * sizeof(int*));
+    int** ans = (int*)malloc((numsSize/3) * sizeof(int*));
+
+    qsort(nums, numsSize, sizeof(int), cmp);
+
+    for(int i = 0, j = 0; i < div; i+=1, j+=3){
+        if((nums[j+2] - nums[j]) > k){
+            *returnColumnSizes = 0;
+            *returnSize = 0;
+            return 0;
+        }
+        (*returnColumnSizes)[i] = 3;
+        ans[i] = &nums[j];
+    }
+    return ans;
+}
